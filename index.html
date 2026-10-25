@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InnoNik · Process improvement and quality for health services</title>
+<meta name="description" content="InnoNik helps healthcare organisations improve workflows, quality management and staff training, with responsible use of data and AI. Based in Oslo, Norway.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M27 11.5 A12 12 0 1 1 20.5 4.9' fill='none' stroke='%232a2140' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='25.2' cy='7.6' r='2.6' fill='%23ffcd45'/%3E%3Cpath d='M11.5 21 V11 L20.5 21 V11' fill='none' stroke='%232a2140' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
+<style>
+/* Layout: airy single column, deliberately light-only; soft lavender ground with butter-yellow and mint highlights; thin lines, light weights; the improvement cycle as logo and interactive centrepiece */
+:root {
+  --bg: #fbf9ff;
+  --surface: #ffffff;
+  --ink: #2a2140;
+  --muted: #625c78;
+  --line: #e4dcf5;
+  --accent: #6d4fd8;
+  --accent-soft: #ece5ff;
+  --deep: #3b2a7a;
+  --yellow: #ffcd45;
+  --yellow-soft: #fff1c4;
+  --mint: #62cf93;
+  --mint-soft: #dbf5e5;
+  --peach-soft: #ffe7dd;
+  --f-display: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--ink); position: relative; isolation: isolate;
+  font-family: var(--f-body); font-weight: 400; font-size: 1.0625rem; line-height: 1.7;
+}
+.wrap {
+  max-width: 64rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+strong { font-weight: 500; }
+.label {
+  font-family: var(--f-body); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent);
+}
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 1.5px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+button { font-family: var(--f-body); font-weight: 400; cursor: pointer; }
+
+
+/* foggy background: DNA helix, neural network, molecules and cells, blurred and faded */
+.fog { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.fog svg { position: absolute; inset: -3%; width: 106%; height: 106%; filter: blur(5px); opacity: 0.30; }
+.fog::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(251, 249, 255, 0.55), rgba(251, 249, 255, 0.15) 70%); }
+
+/* motion */
+@keyframes spin { to { rotate: 360deg; } }
+@keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@keyframes drift { 0% { translate: -1.5% -1%; scale: 1; } 100% { translate: 1.5% 1.5%; scale: 1.05; } }
+@keyframes rise { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+@keyframes wordIn { from { opacity: 0; translate: 0 0.45em; filter: blur(4px); } to { opacity: 1; translate: 0 0; filter: blur(0); } }
+@keyframes wordOut { to { opacity: 0; translate: 0 -0.45em; filter: blur(4px); } }
+.logo .spin { transform-box: view-box; transform-origin: 16px 16px; animation: spin 9s linear infinite; }
+.logo:hover .spin { animation-duration: 1.6s; }
+.fog svg { animation: drift 28s ease-in-out infinite alternate; }
+.hero-text > * { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+.hero-text > *:nth-child(2) { animation-delay: .12s; } .hero-text > *:nth-child(3) { animation-delay: .24s; }
+.area { animation: rise .8s cubic-bezier(.2,.7,.2,1) both, float 6s ease-in-out 1s infinite; }
+.area:nth-child(1) { animation-delay: .25s, 1s; } .area:nth-child(2) { animation-delay: .35s, 2.5s; }
+.area:nth-child(3) { animation-delay: .45s, 1.8s; } .area:nth-child(4) { animation-delay: .55s, 3.2s; }
+.area svg { transition: rotate .5s, scale .5s; } .area:hover svg { rotate: -8deg; scale: 1.12; }
+.hero h1 { min-height: 3.5em; }
+.hero h1 em { display: inline-block; }
+.hero h1 em.in { animation: wordIn .5s cubic-bezier(.2,.7,.2,1) both; }
+.hero h1 em.out { animation: wordOut .35s ease-in both; }
+.cycle .orbit { transform-box: view-box; transform-origin: 150px 150px; animation: spin 24s linear infinite; }
+.js .reveal { opacity: 0; translate: 0 28px; transition: opacity .8s cubic-bezier(.2,.7,.2,1), translate .8s cubic-bezier(.2,.7,.2,1); }
+.js .reveal.seen { opacity: 1; translate: 0 0; }
+.services .service:nth-child(2) { transition-delay: .1s; } .services .service:nth-child(3) { transition-delay: .2s; } .services .service:nth-child(4) { transition-delay: .3s; }
+.btn { transition: translate .25s, box-shadow .25s, opacity .25s; }
+.btn:hover { translate: 0 -2px; box-shadow: 0 10px 22px -12px var(--deep); opacity: 1; }
+@media (max-width: 760px) { .hero h1 { min-height: 4em; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+  .js .reveal { opacity: 1; translate: none; }
+}
+/* header */
+header { border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.1rem; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; color: var(--ink); }
+.logo svg { width: 30px; height: 30px; flex: none; }
+.logo .word { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.01em; line-height: 1; }
+.logo .word span { color: var(--accent); font-weight: 500; }
+nav { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; letter-spacing: 0.06em; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover { color: var(--ink); }
+header .wrap > nav { margin-left: auto; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.lang button { border: none; background: transparent; color: var(--muted); padding: 0.3rem 0.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; }
+.lang button + button { border-left: 1px solid var(--line); }
+.lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+@media (max-width: 760px) {
+  .logo { order: 1; } .lang { order: 2; } header .wrap > nav { order: 3; width: 100%; margin-left: 0; gap: 0.4rem 1.1rem; }
+}
+
+/* hero */
+.hero {
+  padding-block: clamp(2.25rem, 5vw, 3.75rem) clamp(2.25rem, 5vw, 3.5rem);
+  background:
+    radial-gradient(38rem 22rem at 88% 10%, var(--accent-soft), transparent 70%),
+    radial-gradient(30rem 18rem at 70% 95%, var(--yellow-soft), transparent 70%),
+    radial-gradient(24rem 16rem at 100% 60%, var(--mint-soft), transparent 70%);
+}
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+.hero-text { display: grid; gap: 1.1rem; min-width: 0; }
+.hero h1 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 700; letter-spacing: -0.025em; max-width: 20ch; }
+/* hero visual: the four service areas as picture tiles */
+.areas { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; min-width: 0; }
+.area {
+  display: grid; gap: 0.5rem; align-content: start; padding: 1.1rem 1.1rem 1.2rem; border-radius: 16px;
+  text-decoration: none; color: var(--ink); min-width: 0;
+  transition: transform .25s, box-shadow .25s;
+}
+.area:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -18px var(--deep); }
+.area svg { width: 44px; height: 44px; display: block; }
+.area b { font-weight: 600; font-size: 1rem; line-height: 1.25; }
+.area small { font-size: 0.82rem; line-height: 1.4; color: var(--muted); }
+.area.process { background: var(--accent-soft); }
+.area.quality { background: var(--mint-soft); }
+.area.training { background: var(--yellow-soft); }
+.area.data { background: var(--peach-soft); }
+.area:nth-child(2), .area:nth-child(4) { transform: translateY(1.25rem); }
+.area:nth-child(2):hover, .area:nth-child(4):hover { transform: translateY(calc(1.25rem - 3px)); }
+.hero h1 em { font-style: italic; font-weight: 600; color: var(--accent); background: linear-gradient(transparent 64%, var(--yellow-soft) 64%); padding: 0 0.1em; }
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .area { padding: 0.9rem; }
+  .area svg { width: 36px; height: 36px; }
+  .area small { display: none; }
+  .area:nth-child(2), .area:nth-child(4) { transform: none; }
+}
+.hero p.lead { font-size: 1.05rem; color: var(--muted); max-width: 46ch; }
+.hero .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.btn {
+  display: inline-block; padding: 0.7rem 1.4rem; border-radius: 999px; font-size: 0.85rem;
+  letter-spacing: 0.06em; text-decoration: none; border: 1px solid var(--ink); color: var(--ink); background: transparent;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn:hover { opacity: 0.85; }
+
+section { padding-block: clamp(3.5rem, 8vw, 5.5rem); }
+section + section { border-top: 1px solid var(--line); }
+.sec-head { display: grid; gap: 0.8rem; margin-bottom: 2.5rem; max-width: 40rem; }
+.sec-head h2 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); }
+.sec-head p { color: var(--muted); }
+
+/* services + challenge finder */
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.88rem; font-weight: 300;
+}
+.chip[aria-pressed="true"] { border-color: var(--yellow); background: var(--yellow-soft); color: var(--ink); }
+.finder-note { min-height: 1.7em; color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+.services { display: grid; grid-template-columns: repeat(auto-fit, minmax(14.5rem, 1fr)); gap: 1rem; }
+.service {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.6rem 1.5rem; display: grid; gap: 0.6rem; align-content: start; min-width: 0;
+  transition: border-color .25s, opacity .25s, transform .25s;
+}
+.service h3 { font-size: 1.25rem; }
+.service[data-kind="process"] { background: var(--accent-soft); border-color: transparent; }
+.service[data-kind="training"] { background: var(--yellow-soft); border-color: transparent; }
+.service[data-kind="quality"] { background: var(--mint-soft); border-color: transparent; }
+.service[data-kind="data"] { background: var(--peach-soft); border-color: transparent; }
+#approach { background: linear-gradient(180deg, rgba(236, 229, 255, 0.7), rgba(251, 249, 255, 0)); }
+.service p { color: var(--muted); font-size: 0.98rem; }
+.services.filtering .service { opacity: 0.45; }
+.services.filtering .service.match { opacity: 1; border-color: var(--accent); box-shadow: 0 10px 28px -14px var(--accent); transform: translateY(-2px); }
+
+/* PDCA interactive */
+.pdca-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.cycle { max-width: 22rem; width: 100%; aspect-ratio: 1; justify-self: center; }
+.cycle svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.cycle .arc { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; cursor: pointer; transition: stroke .3s; }
+.cycle .arc.on { stroke: var(--accent); }
+.cycle text { font-family: var(--f-display); font-size: 20px; fill: var(--muted); cursor: pointer; transition: fill .3s; }
+.cycle text.on { fill: var(--ink); font-weight: 600; }
+.cycle .centre { font-family: var(--f-body); font-size: 10px; letter-spacing: 3px; fill: var(--muted); cursor: default; }
+.tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.tab {
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  border-radius: 999px; padding: 0.45rem 1.1rem; font-size: 0.85rem; letter-spacing: 0.05em;
+}
+.tab[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.panel { display: grid; gap: 0.8rem; min-height: 11rem; }
+.panel h3 { font-size: 1.6rem; }
+.panel p { color: var(--muted); }
+.panel ul { margin: 0; padding-left: 1.1rem; color: var(--ink); display: grid; gap: 0.25rem; font-size: 0.98rem; }
+.step-nav { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.step-nav button { border: none; background: none; color: var(--accent); padding: 0.3rem 0; font-size: 0.85rem; letter-spacing: 0.05em; }
+
+/* quick check */
+.check { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.25rem, 4vw, 2.5rem); display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); }
+.questions { display: grid; gap: 0; }
+.q { display: grid; gap: 0.6rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.q:first-child { padding-top: 0; }
+.q p { font-size: 1rem; font-weight: 400; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; width: fit-content; }
+.seg button { border: none; background: transparent; color: var(--muted); padding: 0.4rem 1rem; font-size: 0.82rem; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--mint-soft); color: var(--ink); }
+.result { display: grid; gap: 1rem; align-content: start; }
+.meter { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--yellow), var(--mint)); transition: width .4s ease; border-radius: 3px; }
+.score { font-family: var(--f-display); font-size: 3rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.score small { font-size: 1.2rem; color: var(--muted); }
+.result h3 { font-size: 1.5rem; }
+.result p { color: var(--muted); font-size: 0.98rem; }
+.result ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.2rem; font-size: 0.98rem; }
+.reset { justify-self: start; border: none; background: none; color: var(--accent); padding: 0; font-size: 0.85rem; letter-spacing: 0.05em; }
+
+/* about */
+.about-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); }
+.about-grid .text { display: grid; gap: 1rem; max-width: 62ch; }
+.facts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); align-self: start; }
+.facts li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+.facts li span:first-child { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-top: 0.25rem; }
+
+/* contact */
+.contact { background: radial-gradient(30rem 18rem at 90% 20%, rgba(255, 205, 69, 0.28), transparent 70%), var(--deep); }
+.contact .label { color: var(--yellow); }
+.contact .wrap { display: grid; gap: 1.25rem; justify-items: start; }
+.contact h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; max-width: 20ch; color: #ffffff; }
+.contact p { color: rgba(255, 255, 255, 0.82); max-width: 52ch; }
+.contact .card p, .contact .card span { color: inherit; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem 1.75rem; display: grid; gap: 0.35rem; width: 100%; max-width: 30rem; }
+.card .name { font-family: var(--f-display); font-weight: 700; font-size: 1.3rem; color: var(--ink); }
+.card .role { color: var(--muted); font-size: 0.95rem; }
+.email-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.email { font-size: 1.05rem; font-weight: 400; color: var(--ink); text-decoration: none; word-break: break-all; user-select: all; }
+.copy { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.8rem; }
+.copied { font-size: 0.82rem; color: var(--accent); min-height: 1.3em; }
+
+footer { padding-block: 1.75rem; font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; }
+footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .pdca-grid, .about-grid, .check { grid-template-columns: 1fr; }
+  .facts li { grid-template-columns: 5.75rem 1fr; }
+  .cycle { max-width: 16rem; }
+}
+</style>
+
+</head>
+<body>
+<script>document.documentElement.classList.add("js");</script>
+<div class="fog" aria-hidden="true"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><path d="M230.0 -40.0 L243.9 -30.8 L257.4 -21.7 L270.1 -12.5 L281.5 -3.3 L291.4 5.8 L299.4 15.0 L305.3 24.2 L308.9 33.3 L310.3 42.5 L309.3 51.7 L306.0 60.8 L300.6 70.0 L293.4 79.2 L284.5 88.3 L274.3 97.5 L263.2 106.7 L251.7 115.8 L240.0 125.0 L228.8 134.2 L218.3 143.3 L209.0 152.5 L201.3 161.7 L195.3 170.8 L191.4 180.0 L189.8 189.2 L190.4 198.3 L193.4 207.5 L198.7 216.7 L206.1 225.8 L215.5 235.0 L226.5 244.2 L238.9 253.3 L252.2 262.5 L266.0 271.7 L280.0 280.8 L293.6 290.0 L306.6 299.2 L318.4 308.3 L328.7 317.5 L337.3 326.7 L343.8 335.8 L348.1 345.0 L350.1 354.2 L349.8 363.3 L347.2 372.5 L342.4 381.7 L335.6 390.8 L327.1 400.0 L317.3 409.2 L306.5 418.3 L295.0 427.5 L283.3 436.7 L272.0 445.8 L261.2 455.0 L251.6 464.2 L243.3 473.3 L236.8 482.5 L232.3 491.7 L230.0 500.8 L230.0 510.0 L232.3 519.2 L237.0 528.3 L243.8 537.5 L252.6 546.7 L263.2 555.8 L275.2 565.0 L288.3 574.2 L302.0 583.3 L316.0 592.5 L329.8 601.7 L343.0 610.8 L355.1 620.0 L365.9 629.2 L375.0 638.3 L382.2 647.5 L387.1 656.7 L389.8 665.8 L390.1 675.0 L388.2 684.2 L384.0 693.3 L377.7 702.5 L369.7 711.7 L360.2 720.8 L349.6 730.0 L338.3 739.2 L326.7 748.3 L315.2 757.5 L304.2 766.7 L294.2 775.8 L285.5 785.0 L278.5 794.2 L273.4 803.3 L270.4 812.5 L269.8 821.7 L271.4 830.8 L275.4 840.0 L281.6 849.2 L289.9 858.3 L300.0 867.5 L311.7 876.7 L324.5 885.8 L338.0 895.0 L352.0 904.2 L365.9 913.3 L379.3 922.5 L391.8 931.7 L403.0 940.8 L412.6 950.0 L420.3 959.2 L425.9 968.3 L429.3 977.5 L430.3 986.7 L429.0 995.8 L425.4 1005.0 L419.7 1014.2 L412.2 1023.3 L403.1 1032.5 L392.8 1041.7 L381.6 1050.8 L370.0 1060.0" stroke="#6d4fd8" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M230.0 -40.0 L218.4 -30.8 L207.2 -21.7 L196.9 -12.5 L187.8 -3.3 L180.3 5.8 L174.6 15.0 L171.0 24.2 L169.7 33.3 L170.7 42.5 L174.1 51.7 L179.7 60.8 L187.4 70.0 L197.0 79.2 L208.2 88.3 L220.7 97.5 L234.1 106.7 L248.0 115.8 L262.0 125.0 L275.5 134.2 L288.3 143.3 L300.0 152.5 L310.1 161.7 L318.4 170.8 L324.6 180.0 L328.6 189.2 L330.2 198.3 L329.6 207.5 L326.6 216.7 L321.5 225.8 L314.5 235.0 L305.8 244.2 L295.8 253.3 L284.8 262.5 L273.3 271.7 L261.7 280.8 L250.4 290.0 L239.8 299.2 L230.3 308.3 L222.3 317.5 L216.0 326.7 L211.8 335.8 L209.9 345.0 L210.2 354.2 L212.9 363.3 L217.8 372.5 L225.0 381.7 L234.1 390.8 L244.9 400.0 L257.0 409.2 L270.2 418.3 L284.0 427.5 L298.0 436.7 L311.7 445.8 L324.8 455.0 L336.8 464.2 L347.4 473.3 L356.2 482.5 L363.0 491.7 L367.7 500.8 L370.0 510.0 L370.0 519.2 L367.7 528.3 L363.2 537.5 L356.7 546.7 L348.4 555.8 L338.8 565.0 L328.0 574.2 L316.7 583.3 L305.0 592.5 L293.5 601.7 L282.7 610.8 L272.9 620.0 L264.4 629.2 L257.6 638.3 L252.8 647.5 L250.2 656.7 L249.9 665.8 L251.9 675.0 L256.2 684.2 L262.7 693.3 L271.3 702.5 L281.6 711.7 L293.4 720.8 L306.4 730.0 L320.0 739.2 L334.0 748.3 L347.8 757.5 L361.1 766.7 L373.5 775.8 L384.5 785.0 L393.9 794.2 L401.3 803.3 L406.6 812.5 L409.6 821.7 L410.2 830.8 L408.6 840.0 L404.7 849.2 L398.7 858.3 L391.0 867.5 L381.7 876.7 L371.2 885.8 L360.0 895.0 L348.3 904.2 L336.8 913.3 L325.7 922.5 L315.5 931.7 L306.6 940.8 L299.4 950.0 L294.0 959.2 L290.7 968.3 L289.7 977.5 L291.1 986.7 L294.7 995.8 L300.6 1005.0 L308.6 1014.2 L318.5 1023.3 L329.9 1032.5 L342.6 1041.7 L356.1 1050.8 L370.0 1060.0" stroke="#62cf93" stroke-width="7" fill="none" stroke-linecap="round"/><line x1="230.0" y1="-40.0" x2="230.0" y2="-40.0" stroke="#3b2a7a" stroke-width="4" opacity="0.75"/><line x1="291.4" y1="5.8" x2="180.3" y2="5.8" stroke="#3b2a7a" stroke-width="4" opacity="0.59"/><line x1="309.3" y1="51.7" x2="174.1" y2="51.7" stroke="#3b2a7a" stroke-width="4" opacity="0.45"/><line x1="274.3" y1="97.5" x2="220.7" y2="97.5" stroke="#3b2a7a" stroke-width="4" opacity="0.72"/><line x1="218.3" y1="143.3" x2="288.3" y2="143.3" stroke="#3b2a7a" stroke-width="4" opacity="0.70"/><line x1="189.8" y1="189.2" x2="328.6" y2="189.2" stroke="#3b2a7a" stroke-width="4" opacity="0.40"/><line x1="215.5" y1="235.0" x2="314.5" y2="235.0" stroke="#3b2a7a" stroke-width="4" opacity="0.63"/><line x1="280.0" y1="280.8" x2="261.7" y2="280.8" stroke="#3b2a7a" stroke-width="4" opacity="0.75"/><line x1="337.3" y1="326.7" x2="216.0" y2="326.7" stroke="#3b2a7a" stroke-width="4" opacity="0.55"/><line x1="347.2" y1="372.5" x2="217.8" y2="372.5" stroke="#3b2a7a" stroke-width="4" opacity="0.50"/><line x1="306.5" y1="418.3" x2="270.2" y2="418.3" stroke="#3b2a7a" stroke-width="4" opacity="0.74"/><line x1="251.6" y1="464.2" x2="336.8" y2="464.2" stroke="#3b2a7a" stroke-width="4" opacity="0.67"/><line x1="230.0" y1="510.0" x2="370.0" y2="510.0" stroke="#3b2a7a" stroke-width="4" opacity="0.35"/><line x1="263.2" y1="555.8" x2="348.4" y2="555.8" stroke="#3b2a7a" stroke-width="4" opacity="0.67"/><line x1="329.8" y1="601.7" x2="293.5" y2="601.7" stroke="#3b2a7a" stroke-width="4" opacity="0.74"/><line x1="382.2" y1="647.5" x2="252.8" y2="647.5" stroke="#3b2a7a" stroke-width="4" opacity="0.50"/><line x1="384.0" y1="693.3" x2="262.7" y2="693.3" stroke="#3b2a7a" stroke-width="4" opacity="0.55"/><line x1="338.3" y1="739.2" x2="320.0" y2="739.2" stroke="#3b2a7a" stroke-width="4" opacity="0.75"/><line x1="285.5" y1="785.0" x2="384.5" y2="785.0" stroke="#3b2a7a" stroke-width="4" opacity="0.63"/><line x1="271.4" y1="830.8" x2="410.2" y2="830.8" stroke="#3b2a7a" stroke-width="4" opacity="0.40"/><line x1="311.7" y1="876.7" x2="381.7" y2="876.7" stroke="#3b2a7a" stroke-width="4" opacity="0.70"/><line x1="379.3" y1="922.5" x2="325.7" y2="922.5" stroke="#3b2a7a" stroke-width="4" opacity="0.72"/><line x1="425.9" y1="968.3" x2="290.7" y2="968.3" stroke="#3b2a7a" stroke-width="4" opacity="0.45"/><line x1="419.7" y1="1014.2" x2="308.6" y2="1014.2" stroke="#3b2a7a" stroke-width="4" opacity="0.59"/><line x1="370.0" y1="1060.0" x2="370.0" y2="1060.0" stroke="#3b2a7a" stroke-width="4" opacity="0.75"/><line x1="1060" y1="320" x2="1210" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.40"/><line x1="1060" y1="320" x2="1210" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.32"/><line x1="1060" y1="320" x2="1210" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.54"/><line x1="1060" y1="320" x2="1210" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1060" y1="320" x2="1210" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.49"/><line x1="1060" y1="320" x2="1210" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.41"/><line x1="1060" y1="440" x2="1210" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1060" y1="440" x2="1210" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.48"/><line x1="1060" y1="440" x2="1210" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.27"/><line x1="1060" y1="440" x2="1210" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.45"/><line x1="1060" y1="440" x2="1210" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1060" y1="440" x2="1210" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.29"/><line x1="1060" y1="560" x2="1210" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.44"/><line x1="1060" y1="560" x2="1210" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.62"/><line x1="1060" y1="560" x2="1210" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.31"/><line x1="1060" y1="560" x2="1210" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.35"/><line x1="1060" y1="560" x2="1210" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.53"/><line x1="1060" y1="560" x2="1210" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.68"/><line x1="1060" y1="680" x2="1210" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1060" y1="680" x2="1210" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.43"/><line x1="1060" y1="680" x2="1210" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.69"/><line x1="1060" y1="680" x2="1210" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.27"/><line x1="1060" y1="680" x2="1210" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.64"/><line x1="1060" y1="680" x2="1210" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.38"/><line x1="1210" y1="200" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.31"/><line x1="1210" y1="200" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.30"/><line x1="1210" y1="200" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.39"/><line x1="1210" y1="200" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.62"/><line x1="1210" y1="200" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.33"/><line x1="1210" y1="200" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1210" y1="320" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.54"/><line x1="1210" y1="320" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.42"/><line x1="1210" y1="320" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.50"/><line x1="1210" y1="320" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1210" y1="320" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1210" y1="320" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.34"/><line x1="1210" y1="440" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.56"/><line x1="1210" y1="440" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.44"/><line x1="1210" y1="440" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.39"/><line x1="1210" y1="440" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1210" y1="440" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.45"/><line x1="1210" y1="440" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.38"/><line x1="1210" y1="560" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.61"/><line x1="1210" y1="560" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.56"/><line x1="1210" y1="560" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.36"/><line x1="1210" y1="560" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1210" y1="560" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.49"/><line x1="1210" y1="560" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.64"/><line x1="1210" y1="680" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.58"/><line x1="1210" y1="680" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.38"/><line x1="1210" y1="680" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.69"/><line x1="1210" y1="680" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.30"/><line x1="1210" y1="680" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.44"/><line x1="1210" y1="680" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.59"/><line x1="1210" y1="800" x2="1360" y2="200" stroke="#6d4fd8" stroke-width="2" opacity="0.32"/><line x1="1210" y1="800" x2="1360" y2="320" stroke="#6d4fd8" stroke-width="2" opacity="0.47"/><line x1="1210" y1="800" x2="1360" y2="440" stroke="#6d4fd8" stroke-width="2" opacity="0.27"/><line x1="1210" y1="800" x2="1360" y2="560" stroke="#6d4fd8" stroke-width="2" opacity="0.55"/><line x1="1210" y1="800" x2="1360" y2="680" stroke="#6d4fd8" stroke-width="2" opacity="0.59"/><line x1="1210" y1="800" x2="1360" y2="800" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1360" y1="200" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.64"/><line x1="1360" y1="200" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.39"/><line x1="1360" y1="200" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.56"/><line x1="1360" y1="320" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.52"/><line x1="1360" y1="320" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.51"/><line x1="1360" y1="320" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.46"/><line x1="1360" y1="440" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.63"/><line x1="1360" y1="440" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.68"/><line x1="1360" y1="440" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.46"/><line x1="1360" y1="560" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.55"/><line x1="1360" y1="560" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.28"/><line x1="1360" y1="560" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.57"/><line x1="1360" y1="680" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.54"/><line x1="1360" y1="680" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.70"/><line x1="1360" y1="680" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.62"/><line x1="1360" y1="800" x2="1500" y2="380" stroke="#6d4fd8" stroke-width="2" opacity="0.38"/><line x1="1360" y1="800" x2="1500" y2="500" stroke="#6d4fd8" stroke-width="2" opacity="0.42"/><line x1="1360" y1="800" x2="1500" y2="620" stroke="#6d4fd8" stroke-width="2" opacity="0.55"/><circle cx="1060" cy="320" r="17" fill="#6d4fd8"/><circle cx="1060" cy="440" r="17" fill="#6d4fd8"/><circle cx="1060" cy="560" r="17" fill="#6d4fd8"/><circle cx="1060" cy="680" r="17" fill="#6d4fd8"/><circle cx="1210" cy="200" r="17" fill="#ffcd45"/><circle cx="1210" cy="320" r="17" fill="#ffcd45"/><circle cx="1210" cy="440" r="17" fill="#ffcd45"/><circle cx="1210" cy="560" r="17" fill="#ffcd45"/><circle cx="1210" cy="680" r="17" fill="#ffcd45"/><circle cx="1210" cy="800" r="17" fill="#ffcd45"/><circle cx="1360" cy="200" r="17" fill="#62cf93"/><circle cx="1360" cy="320" r="17" fill="#62cf93"/><circle cx="1360" cy="440" r="17" fill="#62cf93"/><circle cx="1360" cy="560" r="17" fill="#62cf93"/><circle cx="1360" cy="680" r="17" fill="#62cf93"/><circle cx="1360" cy="800" r="17" fill="#62cf93"/><circle cx="1500" cy="380" r="17" fill="#3b2a7a"/><circle cx="1500" cy="500" r="17" fill="#3b2a7a"/><circle cx="1500" cy="620" r="17" fill="#3b2a7a"/><polygon points="754.6,190.0 720.0,210.0 685.4,190.0 685.4,150.0 720.0,130.0 754.6,150.0" fill="none" stroke="#ffcd45" stroke-width="6"/><polygon points="823.9,230.0 789.3,250.0 754.7,230.0 754.7,190.0 789.3,170.0 823.9,190.0" fill="none" stroke="#ffcd45" stroke-width="6"/><polygon points="823.9,310.0 789.3,330.0 754.7,310.0 754.7,270.0 789.3,250.0 823.9,270.0" fill="none" stroke="#ffcd45" stroke-width="6"/><polygon points="894.6,160.0 860.0,180.0 825.4,160.0 825.4,120.0 860.0,100.0 894.6,120.0" fill="none" stroke="#ffcd45" stroke-width="6"/><circle cx="640" cy="820" r="90" fill="#62cf93" opacity=".55"/><circle cx="658" cy="806" r="31" fill="#62cf93" opacity=".7"/><circle cx="780" cy="880" r="60" fill="#ffcd45" opacity=".55"/><circle cx="792" cy="871" r="21" fill="#ffcd45" opacity=".7"/><circle cx="900" cy="780" r="45" fill="#6d4fd8" opacity=".55"/><circle cx="909" cy="773" r="15" fill="#6d4fd8" opacity=".7"/><circle cx="560" cy="700" r="30" fill="#6d4fd8" opacity=".55"/><circle cx="566" cy="695" r="10" fill="#6d4fd8" opacity=".7"/><circle cx="36" cy="461" r="2.7" fill="#6d4fd8" opacity="0.25"/><circle cx="94" cy="768" r="2.5" fill="#6d4fd8" opacity="0.30"/><circle cx="625" cy="871" r="2.3" fill="#6d4fd8" opacity="0.38"/><circle cx="879" cy="883" r="5.3" fill="#6d4fd8" opacity="0.55"/><circle cx="445" cy="415" r="3.4" fill="#6d4fd8" opacity="0.55"/><circle cx="1532" cy="150" r="2.7" fill="#6d4fd8" opacity="0.29"/><circle cx="373" cy="484" r="4.4" fill="#6d4fd8" opacity="0.31"/><circle cx="6" cy="418" r="3.5" fill="#6d4fd8" opacity="0.43"/><circle cx="1524" cy="690" r="4.1" fill="#6d4fd8" opacity="0.45"/><circle cx="1081" cy="53" r="5.6" fill="#6d4fd8" opacity="0.51"/><circle cx="1399" cy="797" r="3.6" fill="#6d4fd8" opacity="0.36"/><circle cx="165" cy="634" r="2.2" fill="#6d4fd8" opacity="0.23"/><circle cx="334" cy="162" r="3.4" fill="#6d4fd8" opacity="0.22"/><circle cx="0" cy="151" r="2.4" fill="#6d4fd8" opacity="0.35"/><circle cx="40" cy="874" r="4.5" fill="#6d4fd8" opacity="0.26"/><circle cx="403" cy="347" r="3.5" fill="#6d4fd8" opacity="0.25"/><circle cx="1358" cy="993" r="3.9" fill="#6d4fd8" opacity="0.39"/><circle cx="137" cy="102" r="3.4" fill="#6d4fd8" opacity="0.31"/><circle cx="1326" cy="161" r="2.1" fill="#6d4fd8" opacity="0.58"/><circle cx="845" cy="146" r="4.2" fill="#6d4fd8" opacity="0.21"/><circle cx="844" cy="978" r="5.5" fill="#6d4fd8" opacity="0.48"/><circle cx="417" cy="366" r="2.7" fill="#6d4fd8" opacity="0.51"/><circle cx="852" cy="779" r="3.3" fill="#6d4fd8" opacity="0.29"/><circle cx="1298" cy="984" r="5.4" fill="#6d4fd8" opacity="0.52"/><circle cx="1309" cy="739" r="2.9" fill="#6d4fd8" opacity="0.41"/><circle cx="568" cy="28" r="2.1" fill="#6d4fd8" opacity="0.31"/><circle cx="414" cy="692" r="5.8" fill="#6d4fd8" opacity="0.38"/><circle cx="1499" cy="988" r="5.8" fill="#6d4fd8" opacity="0.35"/><circle cx="352" cy="226" r="2.8" fill="#6d4fd8" opacity="0.28"/><circle cx="998" cy="900" r="5.4" fill="#6d4fd8" opacity="0.39"/><circle cx="1044" cy="799" r="2.3" fill="#6d4fd8" opacity="0.46"/><circle cx="1455" cy="782" r="5.0" fill="#6d4fd8" opacity="0.39"/><circle cx="285" cy="789" r="3.3" fill="#6d4fd8" opacity="0.52"/><circle cx="1554" cy="395" r="3.6" fill="#6d4fd8" opacity="0.58"/><circle cx="1159" cy="170" r="2.5" fill="#6d4fd8" opacity="0.26"/><circle cx="1447" cy="806" r="2.6" fill="#6d4fd8" opacity="0.53"/><circle cx="1568" cy="657" r="3.4" fill="#6d4fd8" opacity="0.42"/><circle cx="209" cy="14" r="5.9" fill="#6d4fd8" opacity="0.46"/><circle cx="842" cy="933" r="3.7" fill="#6d4fd8" opacity="0.55"/><circle cx="1321" cy="211" r="3.0" fill="#6d4fd8" opacity="0.32"/><circle cx="384" cy="586" r="3.0" fill="#6d4fd8" opacity="0.37"/><circle cx="209" cy="910" r="3.4" fill="#6d4fd8" opacity="0.38"/><circle cx="933" cy="904" r="3.7" fill="#6d4fd8" opacity="0.57"/><circle cx="802" cy="531" r="4.1" fill="#6d4fd8" opacity="0.21"/><circle cx="704" cy="183" r="2.0" fill="#6d4fd8" opacity="0.52"/><circle cx="275" cy="473" r="4.9" fill="#6d4fd8" opacity="0.42"/><circle cx="521" cy="518" r="4.2" fill="#6d4fd8" opacity="0.51"/><circle cx="169" cy="560" r="3.0" fill="#6d4fd8" opacity="0.31"/><circle cx="1235" cy="507" r="4.2" fill="#6d4fd8" opacity="0.50"/><circle cx="1459" cy="443" r="4.5" fill="#6d4fd8" opacity="0.40"/><circle cx="819" cy="692" r="3.8" fill="#6d4fd8" opacity="0.41"/><circle cx="764" cy="941" r="4.8" fill="#6d4fd8" opacity="0.55"/><circle cx="1507" cy="259" r="4.2" fill="#6d4fd8" opacity="0.58"/><circle cx="1343" cy="137" r="2.5" fill="#6d4fd8" opacity="0.38"/><circle cx="116" cy="240" r="2.3" fill="#6d4fd8" opacity="0.47"/><circle cx="1254" cy="897" r="2.6" fill="#6d4fd8" opacity="0.49"/><circle cx="1056" cy="142" r="5.5" fill="#6d4fd8" opacity="0.59"/><circle cx="351" cy="952" r="3.6" fill="#6d4fd8" opacity="0.39"/><circle cx="1583" cy="832" r="2.6" fill="#6d4fd8" opacity="0.37"/><circle cx="824" cy="339" r="2.8" fill="#6d4fd8" opacity="0.33"/></svg></div>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="InnoNik home">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <g class="spin">
+        <path d="M27 11.5 A12 12 0 1 1 20.5 4.9" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="25.2" cy="7.6" r="2.4" fill="var(--yellow)"/>
+        </g>
+        <path d="M11.5 21 V11 L20.5 21 V11" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="word">Inno<span>Nik</span></span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#services" data-t="nav1">Services</a>
+      <a href="#approach" data-t="nav2">Approach</a>
+      <a href="#check" data-t="nav3">Quick check</a>
+      <a href="#about" data-t="nav4">About</a>
+      <a href="#contact" data-t="nav5">Contact</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Språk / Language">
+      <button type="button" data-lang="no" aria-pressed="false" lang="nb">NO</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-text">
+      <h1 data-t="h1">Better processes for <em>safer, smarter</em> health services</h1>
+      <p class="lead" data-t="lead">We help hospitals and labs improve workflows, quality and training, built on hands-on hospital laboratory experience.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#check" data-t="cta1">Take the quick check</a>
+        <a class="btn" href="#contact" data-t="cta2">Get in touch</a>
+      </div>
+      </div>
+      <div class="areas">
+        <a class="area process" href="#services">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="8" width="12" height="10" rx="3" fill="var(--accent)"/><rect x="32" y="8" width="12" height="10" rx="3" fill="var(--accent)" opacity=".45"/><rect x="18" y="30" width="12" height="10" rx="3" fill="var(--deep)"/><path d="M16 13h16M38 18v6a6 6 0 0 1-6 6h-2M10 18v6a6 6 0 0 0 6 6h2" fill="none" stroke="var(--deep)" stroke-width="2" stroke-linecap="round"/></svg>
+          <b data-t="a1">Process improvement</b>
+          <small data-t="a1s">Fewer errors and delays</small>
+        </a>
+        <a class="area quality" href="#services">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 10-7 18-16 22C15 40 8 32 8 22V10z" fill="var(--mint)"/><path d="m16 24 6 6 11-12" fill="none" stroke="var(--deep)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <b data-t="a2">Quality &amp; ISO 9001</b>
+          <small data-t="a2s">Procedures that hold up</small>
+        </a>
+        <a class="area training" href="#services">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z" fill="var(--yellow)"/><path d="M12 22v10c0 4 6 7 12 7s12-3 12-7V22l-12 5z" fill="var(--deep)" opacity=".85"/><path d="M44 18v12" stroke="var(--deep)" stroke-width="2" stroke-linecap="round"/></svg>
+          <b data-t="a3">Training</b>
+          <small data-t="a3s">Confident staff, faster</small>
+        </a>
+        <a class="area data" href="#services">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="26" width="8" height="16" rx="2" fill="var(--accent)" opacity=".5"/><rect x="20" y="16" width="8" height="26" rx="2" fill="var(--accent)" opacity=".75"/><rect x="34" y="8" width="8" height="34" rx="2" fill="var(--deep)"/><circle cx="38" cy="6" r="0" /><path d="M6 20 18 12l8 4 14-10" fill="none" stroke="#e8875f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <b data-t="a4">Data &amp; AI</b>
+          <small data-t="a4s">Measure what matters</small>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label" data-t="sl">Services</span>
+        <h2 data-t="sh">What we help with</h2>
+        <p data-t="sp">Which challenge sounds familiar? Choose one to see where we can help.</p>
+      </div>
+      <div class="chips" role="group" aria-label="Choose a challenge">
+        <button class="chip" id="ch-process" data-match="process" data-note="Process improvement: we map the workflow with your team, find where errors and delays happen, and fix them at the source." data-t="chip-process" data-note-no="Prosessforbedring: vi kartlegger arbeidsflyten sammen med teamet ditt, finner hvor feil og forsinkelser oppstår, og løser dem ved kilden." aria-pressed="false">Too many errors or delays</button>
+        <button class="chip" id="ch-training" data-match="training" data-note="Training and competence: we build clear routines and learning resources so new staff become confident faster." data-t="chip-training" data-note-no="Opplæring og kompetanse: vi lager tydelige rutiner og læringsressurser, slik at nyansatte blir trygge raskere." aria-pressed="false">New staff take long to learn routines</button>
+        <button class="chip" id="ch-quality" data-match="quality" data-note="Quality management: we help you get procedures, documentation and follow-up in place, ready for ISO 9001 or an audit." data-t="chip-quality" data-note-no="Kvalitetsledelse: vi hjelper dere å få på plass prosedyrer, dokumentasjon og oppfølging, klart for ISO 9001 eller revisjon." aria-pressed="false">Preparing for ISO 9001 or an audit</button>
+        <button class="chip" id="ch-data" data-match="data" data-note="Data and AI: we help you decide what to measure, use the data you already have, and explore AI responsibly." data-t="chip-data" data-note-no="Data og KI: vi hjelper dere å bestemme hva som skal måles, bruke dataene dere allerede har, og utforske KI på en ansvarlig måte." aria-pressed="false">We have data but don't use it</button>
+      </div>
+      <p class="finder-note" id="finder-note" aria-live="polite"></p>
+      <div class="services" id="services-grid">
+        <div class="service" data-kind="process">
+          <span class="label" data-t="c1l">Process</span>
+          <h3 data-t="c1h">Process improvement</h3>
+          <p data-t="c1p">Mapping workflows, finding bottlenecks and sources of error, and putting practical improvements in place that staff can keep up.</p>
+        </div>
+        <div class="service" data-kind="training">
+          <span class="label" data-t="c2l">Training</span>
+          <h3 data-t="c2h">Training and competence</h3>
+          <p data-t="c2p">Methods and learning resources for healthcare training and improvement work in hospitals, including learning portals and supervision.</p>
+        </div>
+        <div class="service" data-kind="quality">
+          <span class="label">ISO 9001</span>
+          <h3 data-t="c3h">Quality management</h3>
+          <p data-t="c3p">Support with quality systems, procedures and documentation, and preparation for ISO 9001.</p>
+        </div>
+        <div class="service" data-kind="data">
+          <span class="label" data-t="c4l">Data &amp; AI</span>
+          <h3 data-t="c4h">Data and AI</h3>
+          <p data-t="c4p">Using data to measure and follow up services, and applying AI responsibly in health and research projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label" data-t="pl">Approach</span>
+        <h2 data-t="ph">Continuous improvement, step by step</h2>
+        <p data-t="pp">Our work follows the Plan–Do–Check–Act cycle, the method behind ISO 9001. Click a stage to see what happens.</p>
+      </div>
+      <div class="pdca-grid">
+        <div class="cycle">
+          <svg viewBox="0 0 300 300" role="img" aria-label="Plan, Do, Check, Act cycle">
+            <path class="arc" data-i="0" d="M158 40 A110 110 0 0 1 260 142"/>
+            <path class="arc" data-i="1" d="M260 158 A110 110 0 0 1 158 260"/>
+            <path class="arc" data-i="2" d="M142 260 A110 110 0 0 1 40 158"/>
+            <path class="arc" data-i="3" d="M40 142 A110 110 0 0 1 142 40"/>
+            <text data-i="0" x="212" y="100" text-anchor="middle" data-t="st0">Plan</text>
+            <text data-i="1" x="212" y="214" text-anchor="middle" data-t="st1">Do</text>
+            <text data-i="2" x="88" y="214" text-anchor="middle" data-t="st2">Check</text>
+            <text data-i="3" x="88" y="100" text-anchor="middle" data-t="st3">Act</text>
+            <text class="centre" x="150" y="154" text-anchor="middle">PDCA</text>
+            <g class="orbit"><circle cx="150" cy="150" r="132" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="2 10" opacity=".5"/><circle cx="150" cy="18" r="6" fill="var(--yellow)"/></g>
+          </svg>
+        </div>
+        <div>
+          <div class="tabs" role="tablist" aria-label="PDCA stages">
+            <button class="tab" role="tab" id="tab-0" aria-selected="true" data-t="st0" aria-controls="pdca-panel">Plan</button>
+            <button class="tab" role="tab" id="tab-1" aria-selected="false" data-t="st1" aria-controls="pdca-panel">Do</button>
+            <button class="tab" role="tab" id="tab-2" aria-selected="false" data-t="st2" aria-controls="pdca-panel">Check</button>
+            <button class="tab" role="tab" id="tab-3" aria-selected="false" data-t="st3" aria-controls="pdca-panel">Act</button>
+          </div>
+          <div class="panel" id="pdca-panel" role="tabpanel" aria-live="polite"></div>
+          <div class="step-nav">
+            <button id="pdca-next" type="button" data-t="next">Next stage →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="check">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label" data-t="ql">Quick check</span>
+        <h2 data-t="qh">How is your unit doing?</h2>
+        <p data-t="qp">Five short questions about your department or lab. Your answers stay in your browser and are not sent anywhere.</p>
+      </div>
+      <div class="check">
+        <div class="questions" id="questions"></div>
+        <div class="result" aria-live="polite">
+          <span class="label" data-t="rl">Your result</span>
+          <div class="score" id="score">0<small> / 10</small></div>
+          <div class="meter"><i id="meter"></i></div>
+          <h3 id="res-title">Answer the questions to see your result</h3>
+          <p id="res-text">Each answer gives points: Yes = 2, Partly = 1, No = 0. You'll get a short summary and a suggestion for where to start.</p>
+          <ul id="res-list" hidden></ul>
+          <button class="reset" id="reset" type="button" hidden data-t="reset">Start again</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label" data-t="al">About</span>
+        <h2 data-t="ah">From the lab bench to the whole system</h2>
+      </div>
+      <div class="about-grid">
+        <div class="text">
+          <p data-t="ap1">InnoNik was founded in 2025 by Naghmeh Melve, a biomedical laboratory scientist with a master's degree in interdisciplinary health research from the University of Oslo.</p>
+          <p data-t="ap2">Naghmeh has worked in hospital laboratories, including the emergency department, with responsibility for pre-analytics, sample reception and supervision of students. She has many years of project leadership, and works on AI-based health and research projects with international partners.</p>
+          <p data-t="ap3">That combination means InnoNik understands both the details of daily clinical work and the bigger picture of quality, training and technology.</p>
+        </div>
+        <ul class="facts">
+          <li><span data-t="f1">Founded</span><span>2025</span></li>
+          <li><span data-t="f2">Based in</span><span data-t="f2v">Oslo, Norway</span></li>
+          <li><span data-t="f3">Education</span><span data-t="f3v">Industrial Design Engineering · BSc Biomedical Laboratory Science, OsloMet · MSc Interdisciplinary Health Research, UiO</span></li>
+          <li><span data-t="f4">Certified</span><span data-t="f4v">PRINCE2 project management</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <span class="label" data-t="kl">Contact</span>
+      <h2 data-t="kh">Let's improve something together</h2>
+      <p data-t="kp">Whether you need help with a workflow, a quality system or a training programme, get in touch for an informal conversation.</p>
+      <div class="card">
+        <span class="name">Naghmeh Melve</span>
+        <span class="role" data-t="role">Founder, InnoNik · Oslo, Norway</span>
+        <div class="email-row">
+          <a class="email" id="email" href="mailto:nana.melve@gmail.com">nana.melve@gmail.com</a>
+          <button class="copy" id="copy" type="button" data-t="copy">Copy</button>
+        </div>
+        <span class="copied" id="copied" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 InnoNik</span>
+    <span data-t="foot">Process improvement and quality for health services</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var LANG = 'en';
+  var NO = {"nav1": "Tjenester", "nav2": "Arbeidsmåte", "nav3": "Hurtigsjekk", "nav4": "Om oss", "nav5": "Kontakt", "h1": "Bedre prosesser for <em>tryggere, smartere</em> helsetjenester", "lead": "Vi hjelper sykehus og laboratorier med å forbedre arbeidsflyt, kvalitet og opplæring, med bakgrunn i praktisk erfaring fra sykehuslaboratorier.", "cta1": "Ta hurtigsjekken", "cta2": "Ta kontakt", "a1": "Prosessforbedring", "a1s": "Færre feil og forsinkelser", "a2": "Kvalitet og ISO 9001", "a2s": "Prosedyrer som holder", "a3": "Opplæring", "a3s": "Trygge ansatte, raskere", "a4": "Data og KI", "a4s": "Mål det som betyr noe", "sl": "Tjenester", "sh": "Hva vi hjelper med", "sp": "Hvilken utfordring kjenner du deg igjen i? Velg én for å se hvor vi kan hjelpe.", "chip-process": "For mange feil eller forsinkelser", "chip-training": "Nyansatte bruker lang tid på å lære rutinene", "chip-quality": "Forbereder ISO 9001 eller revisjon", "chip-data": "Vi har data, men bruker dem ikke", "c1l": "Prosess", "c1h": "Prosessforbedring", "c1p": "Kartlegging av arbeidsflyt, identifisering av flaskehalser og feilkilder, og praktiske forbedringer som de ansatte klarer å holde ved like.", "c2l": "Opplæring", "c2h": "Opplæring og kompetanse", "c2p": "Metoder og læringsressurser for opplæring og forbedringsarbeid i sykehus, blant annet læringsportaler og veiledning.", "c3h": "Kvalitetsledelse", "c3p": "Støtte med kvalitetssystemer, prosedyrer og dokumentasjon, og forberedelse til ISO 9001.", "c4l": "Data og KI", "c4h": "Data og KI", "c4p": "Bruk av data til å måle og følge opp tjenester, og ansvarlig bruk av KI i helse- og forskningsprosjekter.", "pl": "Arbeidsmåte", "ph": "Kontinuerlig forbedring, steg for steg", "pp": "Arbeidet vårt følger PDCA-sirkelen (Planlegg–Utfør–Kontroller–Korriger), metoden bak ISO 9001. Klikk på et steg for å se hva som skjer.", "st0": "Planlegg", "st1": "Utfør", "st2": "Kontroller", "st3": "Korriger", "next": "Neste steg →", "ql": "Hurtigsjekk", "qh": "Hvordan står det til i enheten din?", "qp": "Fem korte spørsmål om avdelingen eller laboratoriet ditt. Svarene blir værende i nettleseren din og sendes ikke noe sted.", "rl": "Ditt resultat", "reset": "Start på nytt", "al": "Om oss", "ah": "Fra laboratoriebenken til hele systemet", "ap1": "InnoNik ble grunnlagt i 2025 av Naghmeh Melve, bioingeniør med mastergrad i tverrfaglig helseforskning fra Universitetet i Oslo.", "ap2": "Naghmeh har jobbet i sykehuslaboratorier, blant annet i akuttmottaket, med ansvar for preanalyse, prøvemottak og veiledning av studenter. Hun har mange års erfaring som prosjektleder, og jobber med KI-baserte helse- og forskningsprosjekter sammen med internasjonale partnere.", "ap3": "Denne kombinasjonen gjør at InnoNik forstår både detaljene i det daglige kliniske arbeidet og det store bildet: kvalitet, opplæring og teknologi.", "f1": "Grunnlagt", "f2": "Sted", "f2v": "Oslo, Norge", "f3": "Utdanning", "f3v": "Industriell design (ingeniør) · Bachelor i bioingeniørfag, OsloMet · Master i tverrfaglig helseforskning, UiO", "f4": "Sertifisert", "f4v": "PRINCE2 prosjektledelse", "kl": "Kontakt", "kh": "La oss forbedre noe sammen", "kp": "Enten du trenger hjelp med en arbeidsflyt, et kvalitetssystem eller et opplæringsprogram: ta kontakt for en uforpliktende prat.", "role": "Gründer, InnoNik · Oslo, Norge", "copy": "Kopier", "foot": "Prosessforbedring og kvalitet for helsetjenester"};
+  /* Challenge finder */
+  var grid = document.getElementById('services-grid');
+  var note = document.getElementById('finder-note');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var on = chip.getAttribute('aria-pressed') !== 'true';
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+      grid.classList.toggle('filtering', on);
+      Array.prototype.forEach.call(grid.children, function (card) {
+        card.classList.toggle('match', on && card.dataset.kind === chip.dataset.match);
+      });
+      if (on) chip.setAttribute('aria-pressed', 'true');
+      note.textContent = on ? (LANG === 'no' ? chip.dataset.noteNo : chip.dataset.note) : '';
+    });
+  });
+
+  /* PDCA */
+  var stagesEn = [
+    { t: 'Plan', d: 'Understand the current process, its goals and its risks, and agree on what to change.', l: ['Map the workflow with the people who do the work', 'Identify bottlenecks, errors and risks', 'Set clear goals and decide how to measure them'] },
+    { t: 'Do', d: 'Try the change in practice, on a small scale first, together with the team.', l: ['Test the new routine in one unit or shift', 'Train staff and prepare simple materials', 'Collect data while the change runs'] },
+    { t: 'Check', d: 'Use data and feedback to see what worked, what did not, and why.', l: ['Compare results with the goals', 'Listen to staff experience', 'Decide whether to adjust, scale up or stop'] },
+    { t: 'Act', d: 'Standardise what works, then start the next round of improvement.', l: ['Update procedures and documentation', 'Build it into training for new staff', 'Choose the next area to improve'] }
+  ];
+  var stagesNo = [
+    { t: 'Planlegg', d: 'Forstå dagens prosess, mål og risikoer, og bli enige om hva som skal endres.', l: ['Kartlegg arbeidsflyten sammen med dem som gjør jobben', 'Finn flaskehalser, feil og risikoer', 'Sett tydelige mål og bestem hvordan de skal måles'] },
+    { t: 'Utfør', d: 'Prøv endringen i praksis, først i liten skala, sammen med teamet.', l: ['Test den nye rutinen i én enhet eller ett skift', 'Lær opp de ansatte og lag enkelt materiell', 'Samle inn data mens endringen pågår'] },
+    { t: 'Kontroller', d: 'Bruk data og tilbakemeldinger til å se hva som fungerte, hva som ikke gjorde det, og hvorfor.', l: ['Sammenlign resultatene med målene', 'Lytt til de ansattes erfaringer', 'Bestem om dere skal justere, skalere opp eller stoppe'] },
+    { t: 'Korriger', d: 'Standardiser det som fungerer, og start neste forbedringsrunde.', l: ['Oppdater prosedyrer og dokumentasjon', 'Bygg det inn i opplæringen av nyansatte', 'Velg neste område å forbedre'] }
+  ];
+  var panel = document.getElementById('pdca-panel');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var arcs = document.querySelectorAll('.cycle .arc');
+  var labels = document.querySelectorAll('.cycle text[data-i]');
+  var cur = 0;
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function show(i) {
+    cur = i;
+    var s = (LANG === 'no' ? stagesNo : stagesEn)[i];
+    panel.innerHTML = '<span class="label">' + (LANG === 'no' ? 'Steg ' : 'Stage ') + (i + 1) + (LANG === 'no' ? ' av 4' : ' of 4') + '</span><h3>' + esc(s.t) + '</h3><p>' + esc(s.d) + '</p><ul>' +
+      s.l.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    tabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    Array.prototype.forEach.call(arcs, function (a) { a.classList.toggle('on', +a.dataset.i === i); });
+    Array.prototype.forEach.call(labels, function (a) { a.classList.toggle('on', +a.dataset.i === i); });
+  }
+  tabs.forEach(function (t, j) { t.addEventListener('click', function () { show(j); }); });
+  Array.prototype.forEach.call(arcs, function (a) { a.addEventListener('click', function () { show(+a.dataset.i); }); });
+  Array.prototype.forEach.call(labels, function (a) { a.addEventListener('click', function () { show(+a.dataset.i); }); });
+  document.getElementById('pdca-next').addEventListener('click', function () { show((cur + 1) % 4); });
+
+  /* Quick check */
+  var qsEn = [
+    { q: 'Our key workflows are mapped, and everyone knows how they work.', area: 'Process improvement: map and simplify your key workflows' },
+    { q: 'We record errors and deviations and follow them up systematically.', area: 'Quality management: a simple system for deviations and follow-up' },
+    { q: 'New staff get structured training with clear materials.', area: 'Training and competence: structured onboarding and learning resources' },
+    { q: 'We use data to measure how our services perform.', area: 'Data and AI: choose a few measures that matter and follow them' },
+    { q: 'Our procedures and documentation are up to date.', area: 'Quality management: review procedures and documentation (ISO 9001)' }
+  ];
+  var qsNo = [
+    { q: 'Våre viktigste arbeidsflyter er kartlagt, og alle vet hvordan de fungerer.', area: 'Prosessforbedring: kartlegg og forenkle de viktigste arbeidsflytene' },
+    { q: 'Vi registrerer feil og avvik og følger dem opp systematisk.', area: 'Kvalitetsledelse: et enkelt system for avvik og oppfølging' },
+    { q: 'Nyansatte får strukturert opplæring med tydelig materiell.', area: 'Opplæring og kompetanse: strukturert opplæring og læringsressurser' },
+    { q: 'Vi bruker data til å måle hvordan tjenestene våre fungerer.', area: 'Data og KI: velg noen få målinger som betyr noe, og følg dem opp' },
+    { q: 'Prosedyrene og dokumentasjonen vår er oppdatert.', area: 'Kvalitetsledelse: gjennomgå prosedyrer og dokumentasjon (ISO 9001)' }
+  ];
+  var qs = qsEn;
+  var TX = {
+    en: { yes: 'Yes', partly: 'Partly', no: 'No', start: 'Answer the questions to see your result', left1: ' question left', leftN: ' questions left', how: 'Each answer gives points: Yes = 2, Partly = 1, No = 0. You’ll get a short summary and a suggestion for where to start.',
+          r1: ['Strong foundation', 'You have good routines in place. The next step is often fine-tuning, or using data and AI to go further.'],
+          r2: ['Good start, with room to grow', 'Some routines work well, others need attention. Here is where we would suggest starting:'],
+          r3: ['Plenty of room to improve', 'Small, focused changes can make a big difference. Here is where we would suggest starting:'],
+          copied: 'Email address copied', select: 'Address selected. Press Ctrl+C (or ⌘C) to copy.' },
+    no: { yes: 'Ja', partly: 'Delvis', no: 'Nei', start: 'Svar på spørsmålene for å se resultatet', left1: ' spørsmål igjen', leftN: ' spørsmål igjen', how: 'Hvert svar gir poeng: Ja = 2, Delvis = 1, Nei = 0. Du får en kort oppsummering og et forslag til hvor dere kan starte.',
+          r1: ['Solid grunnmur', 'Dere har gode rutiner på plass. Neste steg er ofte finjustering, eller å bruke data og KI for å komme videre.'],
+          r2: ['God start, med rom for forbedring', 'Noen rutiner fungerer godt, andre trenger oppmerksomhet. Her foreslår vi at dere starter:'],
+          r3: ['Mye å hente', 'Små, målrettede endringer kan utgjøre en stor forskjell. Her foreslår vi at dere starter:'],
+          copied: 'E-postadressen er kopiert', select: 'Adressen er markert. Trykk Ctrl+C (eller ⌘C) for å kopiere.' }
+  };
+  var answers = qs.map(function () { return null; });
+  var wrap = document.getElementById('questions');
+  function renderQuestions() {
+  wrap.innerHTML = '';
+  var tx = TX[LANG];
+  qs.forEach(function (item, i) {
+    var div = document.createElement('div');
+    div.className = 'q';
+    div.innerHTML = '<p>' + (i + 1) + '. ' + esc(item.q) + '</p><div class="seg" role="group" aria-label="Answer for question ' + (i + 1) + '">' +
+      [tx.yes, tx.partly, tx.no].map(function (lab, k) {
+        return '<button type="button" id="q' + i + '-' + k + '" data-v="' + (2 - k) + '" aria-pressed="' + (answers[i] === 2 - k ? 'true' : 'false') + '">' + lab + '</button>';
+      }).join('') + '</div>';
+    wrap.appendChild(div);
+    Array.prototype.forEach.call(div.querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () {
+        answers[i] = +b.dataset.v;
+        Array.prototype.forEach.call(div.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        update();
+      });
+    });
+  });
+  }
+  var scoreEl = document.getElementById('score'), meter = document.getElementById('meter');
+  var title = document.getElementById('res-title'), text = document.getElementById('res-text');
+  var list = document.getElementById('res-list'), reset = document.getElementById('reset');
+  function update() {
+    var answered = answers.filter(function (a) { return a !== null; }).length;
+    var total = answers.reduce(function (s, a) { return s + (a || 0); }, 0);
+    scoreEl.innerHTML = total + '<small> / 10</small>';
+    meter.style.width = (total * 10) + '%';
+    reset.hidden = answered === 0;
+    if (answered < qs.length) {
+      var tx = TX[LANG];
+      title.textContent = answered === 0 ? tx.start : (qs.length - answered) + (qs.length - answered === 1 ? tx.left1 : tx.leftN);
+      text.textContent = tx.how;
+      list.hidden = true;
+      return;
+    }
+    var r = TX[LANG][total >= 9 ? 'r1' : total >= 5 ? 'r2' : 'r3'];
+    title.textContent = r[0]; text.textContent = r[1];
+    var weak = [];
+    qs.forEach(function (item, i) { if (answers[i] < 2 && weak.indexOf(item.area) < 0) weak.push(item.area); });
+    list.innerHTML = weak.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('');
+    list.hidden = weak.length === 0;
+  }
+  reset.addEventListener('click', function () {
+    answers = answers.map(function () { return null; });
+    Array.prototype.forEach.call(wrap.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', 'false'); });
+    update();
+  });
+
+  /* Language */
+  var tEls = Array.prototype.slice.call(document.querySelectorAll('[data-t]'));
+  tEls.forEach(function (el) { el.dataset.en = el.innerHTML; });
+  var langBtns = Array.prototype.slice.call(document.querySelectorAll('.lang button'));
+  var titles = { en: document.title, no: 'InnoNik · Prosessforbedring og kvalitet for helsetjenester' };
+  function setLang(l) {
+    LANG = l;
+    document.documentElement.lang = l === 'no' ? 'nb' : 'en';
+    document.title = titles[l];
+    tEls.forEach(function (el) { el.innerHTML = l === 'no' ? NO[el.dataset.t] : el.dataset.en; });
+    if (typeof wi !== 'undefined') wi = 0;
+    langBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); });
+    qs = l === 'no' ? qsNo : qsEn;
+    renderQuestions(); update(); show(cur);
+    var pressed = document.querySelector('.chip[aria-pressed="true"]');
+    note.textContent = pressed ? (l === 'no' ? pressed.dataset.noteNo : pressed.dataset.note) : '';
+    copied.textContent = '';
+    try { localStorage.setItem('innonik-lang', l); } catch (e) {}
+  }
+  langBtns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.lang); }); });
+
+  /* Copy email */
+  var copyBtn = document.getElementById('copy'), copied = document.getElementById('copied'), emailEl = document.getElementById('email');
+  copyBtn.addEventListener('click', function () {
+    var addr = emailEl.textContent;
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(emailEl);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copied.textContent = TX[LANG].select;
+    }
+    try {
+      navigator.clipboard.writeText(addr).then(function () { copied.textContent = TX[LANG].copied; }, fallback);
+    } catch (e) { fallback(); }
+  });
+
+
+  /* Motion: rotating headline word, scroll reveal, PDCA autoplay */
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var WORDS = { en: ['safer, smarter', 'more efficient', 'data-driven', 'future-ready'], no: ['tryggere, smartere', 'mer effektive', 'datadrevne', 'fremtidsrettede'] };
+  var wi = 0, h1 = document.querySelector('.hero h1');
+  if (!still) setInterval(function () {
+    var em = h1.querySelector('em'); if (!em) return;
+    em.className = 'out';
+    setTimeout(function () {
+      wi = (wi + 1) % WORDS[LANG].length;
+      em.textContent = WORDS[LANG][wi];
+      em.className = 'in';
+    }, 340);
+  }, 2800);
+  var revealEls = document.querySelectorAll('.sec-head, .service, .pdca-grid, .check, .about-grid, .contact .wrap > *');
+  if ('IntersectionObserver' in window && !still) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    Array.prototype.forEach.call(revealEls, function (el) { el.classList.add('reveal'); io.observe(el); });
+  }
+  var auto = still ? null : setInterval(function () { show((cur + 1) % 4); }, 4000);
+  function stopAuto() { if (auto) { clearInterval(auto); auto = null; } }
+  document.querySelector('.pdca-grid').addEventListener('click', stopAuto);
+
+  var saved = null;
+  try { saved = localStorage.getItem('innonik-lang'); } catch (e) {}
+  setLang(saved === 'en' || saved === 'no' ? saved : 'no');
+})();
+</script>
+
+</body></html>
